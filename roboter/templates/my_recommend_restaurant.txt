@@ -1,5 +1,6 @@
-私のオススメのレストランは、 {restaurant}です。
-My recommend restaurant is {restaurant}.
+
+私のオススメのレストランは、$restaurantです。
+My recommend restaurant is $restaurant.
 
 このレストランは好きですか? [Yes/No]
 Do you like this restaurant? [Yes/No]

@@ -1,2 +1,3 @@
-{name}さん。どこのレストランが好きですか?
-{name}, which restaurant do you like?
+
+$nameさん。どこのレストランが好きですか?
+$name, which restaurant do you like?
