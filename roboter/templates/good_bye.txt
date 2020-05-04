@@ -1,0 +1,5 @@
+{name}さん。ありがとうございました。
+Thank you very much, {name}.
+
+良い一日を!さようなら。
+Have a good day!
