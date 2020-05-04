@@ -19,7 +19,6 @@ class Csv(object):
 
     def read_csv(self):
         """ Return dictionary of csv data
-
         :return:
             Dictionary of csv data
         """
@@ -48,8 +47,7 @@ class RankingCsv(Csv):
         super().make_csv()
 
     def add_restaurant(self, restaurant_name):
-        """ Add restaurant data to csv file
-        """
+        """ Add restaurant data to csv file"""
         d_restaurant = self.read_csv()
         if restaurant_name in d_restaurant:
             d_restaurant[restaurant_name] += 1

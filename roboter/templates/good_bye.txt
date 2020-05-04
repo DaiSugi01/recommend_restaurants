@@ -1,4 +1,3 @@
-
 $nameさん。ありがとうございました。
 Thank you very much, $name.
 

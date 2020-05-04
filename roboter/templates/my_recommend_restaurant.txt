@@ -1,4 +1,3 @@
-
 私のオススメのレストランは、$restaurantです。
 My recommend restaurant is $restaurant.
 
