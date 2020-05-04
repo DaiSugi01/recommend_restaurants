@@ -41,32 +41,33 @@ class RestaurantRobot(Robot):
 
     def ask_preferable_or_not(self):
         """ Ask some restaurant is preferable or not for user"""
-        if not(os.path.exists(self.ranking_csv.csv_filename)):
+        if not os.path.exists(self.ranking_csv.csv_filename):
             return
 
         d_restaurant = self.ranking_csv.read_csv()
         d_restaurant = sorted(d_restaurant.items(), key=lambda x: x[1], reverse=True)
 
         # Show the recommend restaurants
-        isYes = False
+        is_yes = False
         for t_restaurant in d_restaurant:
-            restaurant_name, v = t_restaurant
+            restaurant_name, _ = t_restaurant
             contents = console.get_template('my_recommend_restaurant.txt')
-            yes_or_no = input(colored(contents.substitute(restaurant=restaurant_name), 'green')).capitalize()
+            yes_or_no = input(colored(
+                contents.substitute(restaurant=restaurant_name), 'green')).capitalize()
 
             while True:
-                if yes_or_no == 'Yes' or yes_or_no == 'Y':
+                if yes_or_no in ('Yes', 'Y'):
                     self.ranking_csv.add_restaurant(restaurant_name)
-                    isYes = True
+                    is_yes = True
                     break
-                elif yes_or_no == 'No' or yes_or_no == 'N':
+                elif yes_or_no in ('No', 'N'):
                     break
                 else:
                     print(colored('Yes/Noを入力してください', 'blue'))
                     print(colored('You should input Yes/No', 'blue'))
                     yes_or_no = input().capitalize()
 
-            if isYes:
+            if is_yes:
                 break
 
     def ask_preferable_restaurant(self, user_name):

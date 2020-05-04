@@ -3,7 +3,7 @@ import os
 import pathlib
 
 class Csv(object):
-    def __init__(self,csv_filename=''):
+    def __init__(self, csv_filename=''):
         self.csv_path = os.getcwd() + '/csv/'
         self.field_names = ['Name', 'Count']
         self.csv_filename = csv_filename
@@ -11,7 +11,7 @@ class Csv(object):
     def make_csv(self):
         """ Make csv file & write field header
         """
-        if not(os.path.exists(self.csv_filename)):
+        if not os.path.exists(self.csv_filename):
             pathlib.Path(self.csv_filename).touch()
             with open(self.csv_filename, 'w') as csv_file:
                 writer = csv.DictWriter(csv_file, self.field_names)
