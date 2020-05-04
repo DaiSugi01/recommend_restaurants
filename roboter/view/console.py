@@ -3,7 +3,6 @@ import string
 
 def get_template_dir_path():
     """ Return the path of template directory.
-
     :return:
         str: The template dir path
     """
@@ -12,7 +11,6 @@ def get_template_dir_path():
 
 def get_template(filename):
     """ get the Template
-
     :param
         file_path: template file path
     """

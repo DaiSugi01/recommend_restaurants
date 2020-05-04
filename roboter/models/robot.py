@@ -6,98 +6,84 @@ from roboter.view import console
 from roboter.models import ranking
 
 class Robot(object):
+    def __init__(self):
+        pass
+
     def hello(self):
         """ Show hello template and Return user name
-
         :return:
             User name
         """
         contents = console.get_template('hello.txt')
-        print(colored(contents.template, 'green'))
-        show_word = 'Enter your name: '
-        return self.get_user_input(show_word)
+        user_name = input(colored(contents.template, 'green')).capitalize()
+
+        while True:
+            if user_name:
+                break
+            else:
+                print(colored('あなたの名前を入力してください', 'blue'))
+                print(colored('Please type your name', 'blue'))
+                user_name = input().capitalize()
+        return user_name
 
     def say_good_bye(self, user_name):
         """ Show good-bye template
-
         :param
             user_name: user name
         """
         contents = console.get_template('good_bye.txt')
-        contents = contents.substitute(name=user_name)
-        print(colored(contents, 'green'))
+        print(colored(contents.substitute(name=user_name), 'green'))
 
 class RestaurantRobot(Robot):
-
-    def get_user_input(self, show_word=''):
-        """ This encourage user to input
-
-        :return:
-            User name
-        """
-        while True:
-            input_word = input(colored(show_word, 'blue'))
-            if input_word != '':
-                break
-            else:
-                print('\n文字を入力してください')
-                print("This can't be blank.\n")
-
-        if ' ' in input_word:
-            ans_words = input_word.split(' ')
-            new_ans_words = map(lambda s: s.capitalize(), ans_words)
-            input_word = ' '.join(new_ans_words)
-        else:
-            input_word = input_word.capitalize()
-
-        return input_word
-
-    def get_yes_no_input(self, show_word=''):
-        """ This encourage user to input their answer for recommend restaurant
-
-        :return:
-            Answer (Yes or No)
-        """
-        while True:
-            input_word = input(colored(show_word, 'blue'))
-            input_word = input_word.capitalize()
-            if input_word == 'Yes' or input_word == 'Y' or input_word == 'No' or input_word == 'N':
-                break
-            else:
-                print('\n"yes"、"y"または"no"、"n"で入力してください')
-                print("You should input 'yes', 'y','no','n'.\n")
-        return input_word
+    def __init__(self):
+        super().__init__()
+        self.ranking_csv = ranking.RankingCsv()
 
     def ask_preferable_restaurant(self, user_name):
         """ Ask preferable restaurant to user
-
         :param
             user_name: user name
         """
-        ranking_csv = ranking.RankingCsv()
-
-        if os.path.exists(ranking_csv.csv_filename):
-            d_restaurant = ranking_csv.read_csv()
+        if os.path.exists(self.ranking_csv.csv_filename):
+            d_restaurant = self.ranking_csv.read_csv()
             d_restaurant = sorted(d_restaurant.items(), key=lambda x: x[1], reverse=True)
-            show_word = 'Enter your answer: '
 
             # Show the recommend restaurants
+            isYes = False
             for t_restaurant in d_restaurant:
                 restaurant_name, v = t_restaurant
                 contents = console.get_template('my_recommend_restaurant.txt')
-                contents = contents.substitute(restaurant=restaurant_name)
-                print(colored(contents, 'green'))
-                ans = self.get_yes_no_input(show_word)
-                if ans == 'Yes' or ans == 'Y':
-                    ranking_csv.add_restaurant(restaurant_name)
+                yes_or_no = input(colored(contents.substitute(restaurant=restaurant_name), 'green')).capitalize()
+
+                while True:
+                    if yes_or_no == 'Yes' or yes_or_no == 'Y':
+                        self.ranking_csv.add_restaurant(restaurant_name)
+                        isYes = True
+                        break
+                    elif yes_or_no == 'No' or yes_or_no == 'N':
+                        break
+                    else:
+                        print(colored('Yes/Noを入力してください', 'blue'))
+                        print(colored('You should input Yes/No', 'blue'))
+                        yes_or_no = input().capitalize()
+
+                if isYes:
                     break
 
         # Show the template for asking recommend restaurant
         contents = console.get_template('which_restaurant.txt')
-        contents = contents.substitute(name=user_name)
-        print(colored(contents, 'green'))
-
-        # wait for input that user's recommended restaurant
-        show_word = 'Enter your recommend restaurant: '
-        restaurant_name = self.get_user_input(show_word)
-        ranking_csv.add_restaurant(restaurant_name)
+        restaurant_name = input(colored(contents.substitute(name=user_name), 'green'))
+        while True:
+            if restaurant_name:
+                if ' ' in restaurant_name:
+                    before_soret_list = restaurant_name.split(' ')
+                    sorted_list = map(lambda s: s.capitalize(), before_soret_list)
+                    restaurant_name = ' '.join(sorted_list)
+                else:
+                    restaurant_name = restaurant_name.capitalize()
+                self.ranking_csv.add_restaurant(restaurant_name)
+                break
+            else:
+                print(colored('\nレストラン名を入力してください', 'blue'))
+                print(colored("This can't be blank.\n", 'blue'))
+                restaurant_name = input().capitalize()
