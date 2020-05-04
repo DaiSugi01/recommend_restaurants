@@ -17,6 +17,13 @@ class Csv(object):
                 writer = csv.DictWriter(csv_file, self.field_names)
                 writer.writeheader()
 
+class RankingCsv(Csv):
+    def __init__(self):
+        super().__init__()
+        self.csv_filename = self.csv_path + 'ranking.csv'
+        super().make_csv()
+
+
     def read_csv(self):
         """ Return dictionary of csv data
         :return:
@@ -39,12 +46,6 @@ class Csv(object):
             writer.writeheader()
             for k, v in d_restaurant.items():
                 writer.writerow({'Name': k, 'Count': v})
-
-class RankingCsv(Csv):
-    def __init__(self):
-        super().__init__()
-        self.csv_filename = self.csv_path + 'ranking.csv'
-        super().make_csv()
 
     def add_restaurant(self, restaurant_name):
         """ Add restaurant data to csv file"""
