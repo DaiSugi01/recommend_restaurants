@@ -1,3 +1,8 @@
 from roboter.controller import conversation
 
-conversation.talk_about_restaurant()
+def main():
+    """main function"""
+    conversation.talk_about_restaurant()
+
+if __name__ == '__main__':
+    main()
