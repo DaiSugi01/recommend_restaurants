@@ -44,8 +44,8 @@ class RankingCsv(Csv):
         with open(self.csv_filename, 'w') as csv_file:
             writer = csv.DictWriter(csv_file, fieldnames=self.field_names)
             writer.writeheader()
-            for k, v in d_restaurant.items():
-                writer.writerow({'Name': k, 'Count': v})
+            for name, count in d_restaurant.items():
+                writer.writerow({'Name': name, 'Count': count})
 
     def add_restaurant(self, restaurant_name):
         """ Add restaurant data to csv file"""
